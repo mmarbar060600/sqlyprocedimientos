@@ -21,7 +21,7 @@ Select id,nombre,PrecioVenta, GETDATE()
 FROM inserted
 END
 END
---comprobacion del trigger
+--comprobacion del trigger con tequeño
 UPDATE Menu
-SET PrecioVenta = 4.00
-where Nombre='Albina'
+SET Nombre = 'Pequeños'
+where lower(Nombre)='tequeños'
