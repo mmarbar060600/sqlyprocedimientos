@@ -35,4 +35,17 @@ AS
 PRINT 'Para borrar esta tabla debes deshabilitar el tigger SeguridadBorrarTabla'
 ROLLBACK
 --comprobacion de drop table
-DROP TABLE Menu_HCO
+DROP TABLE Menu_HCO;
+--Trigger para que no te deje iniciar sesion 3 veces desde el sa
+GO
+CREATE TRIGGER connection_limit_trigger
+ON ALL SERVER
+FOR LOGON
+AS 
+BEGIN
+IF ORIGINAL_LOGIN()='sa' AND
+(SELECT COUNT(*) FROM SYS.dm_exec_sessions
+WHERE is_user_process = 1 AND
+ORIGINAL_LOGIN_NAME = 'sa') > 3
+ROLLBACK;
+END
